@@ -16,6 +16,9 @@ t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 	t_list	*newlist;
 	t_list	*newnode;
 
+
+	//content assign lst -> to content
+	//to be able to del content and free (there's a malloc)
 	if (!f || !del)
 		return (NULL);
 	newlist = NULL; //must point to NULL
