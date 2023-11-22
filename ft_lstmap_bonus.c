@@ -16,7 +16,9 @@ t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 	t_list	*newlist;
 	t_list	*newnode;
 
-	newlist = NULL;
+	if (!f || !del)
+		return (NULL);
+	newlist = NULL; //must point to NULL
 	while (lst)
 	{
 		//pointer to newnode of the newlist
@@ -24,12 +26,12 @@ t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 		//if memory fails return NULL
 		if (!newnode)
 		{
-			//list created, must clear the newlst
+			//must clear the newlst
 			ft_lstclear(&newlist, del);
 			return (NULL);
 		}
 		ft_lstadd_back(&newlist, newnode);
-		newlist->next = newlist;
+		lst = lst->next;
 	}
 	return (newlist);
 }
