@@ -15,22 +15,22 @@ t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 {
 	t_list	*newlist;
 	t_list	*newnode;
+	void	*content;
 
-
-	//content assign lst -> to content
-	//to be able to del content and free (there's a malloc)
-	if (!f || !del)
-		return (NULL);
-	newlist = NULL; //must point to NULL
+	newlist = NULL;
 	while (lst)
 	{
-		//pointer to newnode of the newlist
-		newnode = ft_lstnew(f(lst->content));
-		//if memory fails return NULL
+		content = f(lst->content);
+		if (!content)
+		{
+			ft_lstclear(&newlist, del);
+			return (NULL);
+		}
+		newnode = ft_lstnew(content);
 		if (!newnode)
 		{
-			//must clear the newlst
 			ft_lstclear(&newlist, del);
+			del(content);
 			return (NULL);
 		}
 		ft_lstadd_back(&newlist, newnode);
